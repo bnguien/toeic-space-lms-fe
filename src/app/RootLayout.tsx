@@ -1,0 +1,29 @@
+import { Outlet, useLocation, useMatches } from "react-router-dom";
+import { BackToTop } from "@/shared/components/BackToTop/BackToTop";
+import { DocumentTitleReset } from "@/shared/components/DocumentTitle/DocumentTitleReset";
+import { ToastViewport } from "@/shared/components/ui";
+import { isAppRouteHandle } from "@/shared/types/route-handle.types";
+import { Navbar } from "@/shared/components/Navbar/Navbar";
+
+export const RootLayout = () => {
+  const location = useLocation();
+  const matches = useMatches();
+  const isAdminRoute =
+    location.pathname.startsWith("/admin") && location.pathname !== "/admin/login";
+  const isTeacherRoute = location.pathname.startsWith("/teacher");
+  const isBare = matches.some(
+    (match) => isAppRouteHandle(match.handle) && match.handle.chrome === "bare",
+  );
+
+  return (
+    <>
+      {/* Before Outlet: resets the tab title first, then the routed page can set its own. */}
+      <DocumentTitleReset />
+      {!isAdminRoute && !isTeacherRoute && !isBare && <Navbar />}
+      <Outlet />
+      {!isBare && <BackToTop />}
+
+      <ToastViewport />
+    </>
+  );
+};

@@ -1,0 +1,63 @@
+import { defineConfig, loadEnv } from "vite";
+import react from "@vitejs/plugin-react";
+import { fileURLToPath } from "node:url";
+
+// In development, Vite forwards API prefixes to the API gateway (or microservices)
+// so the app and API share one origin: SameSite=Strict cookies work and no CORS issues.
+
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), "VITE_");
+  const target = env.VITE_LMS_GATEWAY || "http://127.0.0.1:15050";
+
+  return {
+    plugins: [react()],
+    resolve: {
+      alias: {
+        "@": fileURLToPath(new URL("./src", import.meta.url)),
+      },
+    },
+    server: {
+      host: "127.0.0.1",
+      port: 15173,
+      strictPort: true,
+
+      watch: {
+        usePolling: process.env.CHOKIDAR_USEPOLLING === "true",
+      },
+
+      proxy: {
+        "/identity": {
+          target,
+          changeOrigin: true,
+          xfwd: true,
+        },
+        "/assessment": {
+          target,
+          changeOrigin: true,
+          xfwd: true,
+        },
+        "/classroom": {
+          target,
+          changeOrigin: true,
+          xfwd: true,
+        },
+        "/content": {
+          target,
+          changeOrigin: true,
+          xfwd: true,
+        },
+        "/payment": {
+          target,
+          changeOrigin: true,
+          xfwd: true,
+        },
+        "/api": {
+          target,
+          changeOrigin: true,
+          xfwd: true,
+          rewrite: (path) => `/identity${path}`,
+        },
+      },
+    },
+  };
+});
