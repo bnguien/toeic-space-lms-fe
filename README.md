@@ -1,56 +1,93 @@
 # TOEICSpace LMS Frontend
 
-Ứng dụng React, TypeScript và Vite cho trung tâm TOEIC. Admin quản lý lớp, giáo viên, phòng và ghi danh. Giáo viên quản lý buổi học và điểm danh trong lớp được phân công. Học viên xem lớp đã ghi danh, lịch tuần, xung đột lịch, Google Meet và lịch sử điểm danh.
+<p align="center">
+  <img alt="React" src="https://img.shields.io/badge/REACT-20232A?style=for-the-badge&amp;logo=react&amp;logoColor=61DAFB" />
+  <img alt="TypeScript" src="https://img.shields.io/badge/TYPESCRIPT-007ACC?style=for-the-badge&amp;logo=typescript&amp;logoColor=white" />
+  <img alt="Vite" src="https://img.shields.io/badge/VITE-646CFF?style=for-the-badge&amp;logo=vite&amp;logoColor=FFD62E" />
+</p>
 
-## Chạy local
+TOEICSpace LMS helps TOEIC training centers manage classes from enrollment through attendance and tuition collection. Administrators, teachers, and students sign in to dedicated portals for their daily work.
 
-Dùng Node 22 và npm 10 theo .nvmrc. Khởi chạy gateway của toeic-space-lms-be ở cổng 15050. Trong thư mục frontend chạy:
+## Key Features
 
-```sh
+- **Class administration** — Assign teachers and rooms, enroll students, and manage recurring schedules. Preview scheduling conflicts before saving changes.
+- **Teaching and attendance** — Teachers can review assigned classes, take attendance, and manage Google Meet links for online sessions.
+- **Student portal** — Students can view their enrolled classes, weekly calendar, meeting links, and attendance history.
+- **Tuition tracking** — Administrators can create tuition orders, record cash payments and waivers, and look up statements showing payments and the outstanding balance.
+- **Account management** — Register, verify an email address, update a profile, or recover a password.
+
+## Technology Stack
+
+- **Language and framework** — TypeScript and React, with Vite for development and production builds.
+- **Routing and data fetching** — React Router, TanStack Query, and Axios.
+- **Forms and validation** — React Hook Form and Zod.
+- **Database** — The LMS backend owns data storage. The frontend accesses it through the API gateway.
+
+## Requirements
+
+- Node.js 22.x and npm 10.x.
+- A running `toeic-space-lms-be` gateway for sign-in and LMS operations. The default local gateway address is `http://127.0.0.1:15050`.
+
+## Installation and Setup
+
+```bash
+git clone https://github.com/bnguien/toeic-space-lms-fe.git
+cd toeic-space-lms-fe
 npm ci
 cp .env.example .env.local
 npm run dev
 ```
 
-Mở http://127.0.0.1:15173. Dùng hostname này riêng cho LMS để tách cookie khỏi ứng dụng khác chạy trên localhost. Vite chuyển tiếp các prefix /identity, /classroom, /assessment, /content và /payment tới gateway LMS. Khi triển khai, dùng hostname riêng, phục vụ dist với SPA fallback và chuyển tiếp năm prefix tới gateway LMS trước fallback. Mặc định HTTP client dùng cùng origin và gửi cookie. Cấu hình OAuth callback/redirect và cookie trên môi trường LMS tương ứng trước khi thử Google Meet.
+Open [the local LMS](http://127.0.0.1:15173) and sign in with an account from your LMS backend.
 
-## Kiểm tra
+## Usage
 
-```sh
-npm run typecheck
+| Role          | Default portal | Typical task                                                     |
+| ------------- | -------------- | ---------------------------------------------------------------- |
+| Administrator | `/admin`       | Enroll a student, schedule a class, or record a tuition payment. |
+| Teacher       | `/teacher`     | Open an assigned class and mark attendance for a session.        |
+| Student       | `/my-classes`  | Check the weekly schedule or join an online session.             |
+
+The defaults work with the local gateway. Set these optional variables in `.env.local` when your environment differs.
+
+| Variable                | Purpose                                                                                            |
+| ----------------------- | -------------------------------------------------------------------------------------------------- |
+| `VITE_LMS_GATEWAY`      | Sets the backend address used by the Vite development proxy. Defaults to `http://127.0.0.1:15050`. |
+| `VITE_LMS_API_BASE_URL` | Sets the API origin used by the browser. Leave empty to send requests through the frontend origin. |
+| `VITE_AVATAR_CDN_URL`   | Sets the public CDN origin for profile images if your deployment uses one.                         |
+
+Run the same checks used in CI before submitting a change:
+
+```bash
 npm run lint
+npm run typecheck
+npm run format:check
 npm test
 npm run build
 ```
 
-## Bàn giao nghiệp vụ
+For production, serve `dist/` on the LMS hostname. Forward `/identity`, `/classroom`, `/assessment`, `/content`, and `/payment` to the LMS gateway before applying the SPA fallback to `index.html`. This lets API requests reach the backend and portal links open correctly on refresh.
 
-| Vai trò | Điểm vào                                               | Quyền thực thi                                                                                          |
-| ------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
-| Admin   | /admin, /admin/classes/list                            | Ghi danh trực tiếp, quản lý vòng đời, phòng, lịch định kỳ, buổi, kiểm tra xung đột, audit và retry Meet |
-| Teacher | /teacher/classes, /teacher/schedule, /teacher/settings | Lớp được phân công, buổi học, điểm danh và kết nối Google                                               |
-| User    | /my-classes, /my-classes/:id                           | Classroom xác định danh tính từ token và kiểm quyền đọc lớp, buổi và Meet                               |
+## Directory Structure
 
-Trang lớp chỉ tải nội dung khi API enrolled/{id} thành công. Lịch sử tài khoản lấy từ GET /classroom/api/v1/students/me/attendance. Trong lớp, FE đọc chi tiết từng ID buổi duy nhất trong lịch sử, đối chiếu classId trước khi lọc trạng thái và chia trang 10 bản ghi. Một lần đọc buổi thất bại sẽ hiển thị lỗi. Với tài khoản có lịch sử dài, nên bổ sung endpoint điểm danh theo lớp có tổng bản ghi và phân trang phía server.
+```text
+├── .github/workflows/   # CI and deployment
+├── public/              # Static files served as-is
+├── src/
+│   ├── app/             # Application routes and root layout
+│   ├── assets/          # Images and other bundled assets
+│   ├── config/          # Frontend environment settings
+│   ├── modules/         # Role portals, authentication, tuition, and other features
+│   ├── services/        # Shared service clients
+│   ├── shared/          # Reusable components, layouts, hooks, and types
+│   └── styles/          # Global styles
+├── tests/               # Automated frontend tests
+├── vite.config.ts       # Vite server, proxy, and build configuration
+├── LICENSE
+└── README.md
+```
 
-## Bàn giao Student Portal
+## Authors and License
 
-Học viên có role `User`. Sau đăng nhập và khi mở `/`, đích mặc định là `/my-classes` với tab **Lớp học của tôi**. Có thể liên kết trực tiếp bằng `?tab=calendar`, `?tab=classes`, `?tab=attendance` và `/my-classes/:id`. Identity dùng chung cho cả ba vai trò.
-
-Khi xây Student Portal theo Microsoft Teams for Education, tái sử dụng ba tab trong `src/modules/student`, calendar và Meet dùng chung, cùng các hook đọc lớp theo tài khoản. Giữ deep link, trạng thái tìm kiếm, bộ lọc và kiểm quyền Classroom trước khi hiển thị chi tiết. Màn học liệu, bài tập và thông báo cần contract riêng trước khi thêm vào portal.
-
-## Học phí
-
-Admin mở /admin/tuition để tạo khoản thu từ classId, studentId, số tiền VND và classEnrollmentId tùy chọn. Đường dẫn /tuition/:id dùng paymentOrderId. Trong phạm vi FE hiện tại, chỉ Admin mở sao kê. Sao kê hiển thị tiền đã trả, miễn giảm, dư nợ, thông tin chuyển khoản và các bút toán. Có thể thu tiền mặt hoặc miễn giảm từng phần. Giữ nguyên ID khi thử lại cùng biểu mẫu. SePay cập nhật qua webhook BE, nút cập nhật đọc lại sao kê. Sau tất toán, Admin thực hiện ghi danh trong Classroom khi cần.
-
-Payment developer tiếp quản màn đối soát qua GET /payment/api/v1/admin/payment-reconciliation/transactions, tra cứu học viên/lớp bằng tên, danh sách khoản thu, khôi phục thao tác chưa xác định kết quả sau khi tải lại trang và xử lý hoàn tiền. Danh sách sao kê theo người học, bảng giá lớp và xác thực liên kết ghi danh cần contract BE. Tự động ghi danh cần hợp đồng Classroom có idempotency và cơ chế retry.
-
-## Phần dành cho giai đoạn sau
-
-- Tài liệu lớp cần metadata, liên kết tài liệu–lớp và kiểm quyền tải theo ghi danh.
-- Bài tập và bài nộp cần liên kết lớp với test/practice set và kiểm quyền làm bài.
-- Thông báo cần sự kiện nghiệp vụ, người nhận, trạng thái gửi và retry.
-- Báo cáo và quản lý học phí nâng cao cần API tổng hợp theo lớp, kỳ và trạng thái.
-- Trợ lý Admin cần rà soát hành động theo các tài nguyên LMS trước khi đưa lại vào menu.
-
-Kiểm thử deployment cần tài khoản thật cho cả ba vai trò: mở deep link lớp của người khác, kiểm tra học viên ngoài lớp, xác nhận lịch sinh buổi, preview xung đột, kết nối Google, thử lại provisioning bằng Admin và đối chiếu thanh toán qua SePay.
+- **Authors** — TOEICSpace Contributors
+- **License** — [MIT](LICENSE)
