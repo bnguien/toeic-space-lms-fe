@@ -1,4 +1,4 @@
-# TOEICSpace LMS Frontend
+<h1 align="center">TOEICSpace LMS Frontend</h1>
 
 <p align="center">
   <img alt="React" src="https://img.shields.io/badge/REACT-20232A?style=for-the-badge&amp;logo=react&amp;logoColor=61DAFB" />
