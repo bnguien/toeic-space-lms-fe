@@ -52,6 +52,13 @@ export const adminRoutes: RouteObject[] = [
           { path: "teachers", element: <UserOverviewPage key="Teacher" role="Teacher" /> },
           { path: "teachers/list", element: <UserListPage key="Teacher" role="Teacher" /> },
           {
+            path: "teachers/schedule",
+            lazy: async () => ({
+              Component: (await import("./pages/TeacherScheduleAdminPage"))
+                .TeacherScheduleAdminPage,
+            }),
+          },
+          {
             path: "teachers/activities",
             element: <UserListPage key="Teacher-activity" role="Teacher" mode="activity" />,
           },
@@ -65,6 +72,10 @@ export const adminRoutes: RouteObject[] = [
 
       /* Lớp học */
       { path: "classes", element: <ClassesOverviewPage /> },
+      {
+        path: "classes/teacher-schedule",
+        element: <Navigate to="/admin/teachers/schedule" replace />,
+      },
       { path: "classes/list", element: <ClassesPage /> },
       { path: "classes/list/:id", element: <ClassesPage /> },
       { path: "classes/facilities", element: <FacilitiesPage /> },

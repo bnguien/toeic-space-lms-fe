@@ -136,6 +136,13 @@ export function ClassSessions({
   const [createTeacherId, setCreateTeacherId] = useState(assignedTeacherId ?? "");
   const [createStartAt, setCreateStartAt] = useState("");
   const [createEndAt, setCreateEndAt] = useState("");
+  const [timeTouched, setTimeTouched] = useState(false);
+  const createTimeError =
+    !createStartAt || !createEndAt
+      ? "Vui lòng chọn thời gian bắt đầu và kết thúc."
+      : Date.parse(createStartAt) >= Date.parse(createEndAt)
+        ? "Thời gian kết thúc phải sau thời gian bắt đầu."
+        : "";
   const [createMode, setCreateMode] = useState<SessionMode>("Offline");
   const [createRoomId, setCreateRoomId] = useState(defaultRoomId ?? "");
   const [createNotes, setCreateNotes] = useState("");
@@ -170,6 +177,7 @@ export function ClassSessions({
 
   const openCreateModal = () => {
     setError("");
+    setTimeTouched(false);
     setCreateType("Makeup");
     setCreateTitle("Buổi học bù");
     setCreateTeacherId(assignedTeacherId ?? teachersQuery.data?.items[0]?.id ?? "");
@@ -212,12 +220,8 @@ export function ClassSessions({
       setError("Vui lòng chọn giáo viên phụ trách.");
       return;
     }
-    if (!createStartAt || !createEndAt) {
-      setError("Vui lòng chọn thời gian bắt đầu và kết thúc.");
-      return;
-    }
-    if (new Date(createStartAt) >= new Date(createEndAt)) {
-      setError("Thời gian bắt đầu phải trước thời gian kết thúc.");
+    if (createTimeError) {
+      setTimeTouched(true);
       return;
     }
     if (createMode === "Offline" && !createRoomId && !defaultRoomId) {
@@ -677,6 +681,8 @@ export function ClassSessions({
               <div className={styles.formField}>
                 <span className={styles.formLabel}>Bắt đầu lúc *</span>
                 <DateTimePicker
+                  onBlur={() => setTimeTouched(true)}
+                  error={timeTouched && Boolean(createTimeError)}
                   value={createStartAt}
                   onChange={setCreateStartAt}
                   placeholder="Chọn ngày giờ bắt đầu"
@@ -685,12 +691,20 @@ export function ClassSessions({
               <div className={styles.formField}>
                 <span className={styles.formLabel}>Kết thúc lúc *</span>
                 <DateTimePicker
+                  onBlur={() => setTimeTouched(true)}
+                  error={timeTouched && Boolean(createTimeError)}
                   value={createEndAt}
                   onChange={setCreateEndAt}
                   placeholder="Chọn ngày giờ kết thúc"
                 />
               </div>
             </div>
+
+            {timeTouched && createTimeError && (
+              <div className={styles.errorBanner} role="alert">
+                {createTimeError}
+              </div>
+            )}
 
             {createMode === "Offline" && (
               <div className={styles.formField}>

@@ -1,3 +1,4 @@
+import { NotificationBell } from "@/modules/notifications";
 import { useState } from "react";
 import {
   CalendarDays,
@@ -122,6 +123,7 @@ export function TeacherLayout() {
             <strong>{user?.fullName || "Giáo viên"}!</strong>
           </div>
           <div className={styles.headerActions}>
+            <NotificationBell />
             <Link to="/teacher/settings" className={styles.profile}>
               {avatar ? (
                 <img src={avatar} alt="" />

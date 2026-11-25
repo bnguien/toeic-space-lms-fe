@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { CheckCircle2, Clock, MapPin, Monitor, User, X, XCircle } from "lucide-react";
 import type { SessionView } from "@/modules/admin";
@@ -16,7 +17,7 @@ interface Props {
   session: SessionView;
   classLabel: string;
   teacherName?: string | null;
-  role: "teacher" | "student";
+  role: "teacher" | "student" | "admin";
   anchor: HTMLElement;
   focusOnMount: boolean;
   onRequestClose: () => void;
@@ -88,7 +89,7 @@ export function SessionSchedulePopover({
     if (focusOnMount) popoverRef.current?.focus({ preventScroll: true });
   }, [focusOnMount]);
 
-  return (
+  const dialog = (
     <div
       ref={popoverRef}
       className={styles.popover}
@@ -128,7 +129,7 @@ export function SessionSchedulePopover({
 
       <div className={styles.divider} />
 
-      {online && <SessionMeetSection session={session} role={role} />}
+      {online && role !== "admin" && <SessionMeetSection session={session} role={role} />}
 
       <dl className={styles.facts}>
         <div>
@@ -203,4 +204,5 @@ export function SessionSchedulePopover({
       )}
     </div>
   );
+  return typeof document === "undefined" ? dialog : createPortal(dialog, document.body);
 }

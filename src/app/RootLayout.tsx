@@ -1,3 +1,4 @@
+import { NotificationProvider } from "@/modules/notifications";
 import { Outlet, useLocation, useMatches } from "react-router-dom";
 import { BackToTop } from "@/shared/components/BackToTop/BackToTop";
 import { DocumentTitleReset } from "@/shared/components/DocumentTitle/DocumentTitleReset";
@@ -16,7 +17,7 @@ export const RootLayout = () => {
   );
 
   return (
-    <>
+    <NotificationProvider>
       {/* Before Outlet: resets the tab title first, then the routed page can set its own. */}
       <DocumentTitleReset />
       {!isAdminRoute && !isTeacherRoute && !isBare && <Navbar />}
@@ -24,6 +25,6 @@ export const RootLayout = () => {
       {!isBare && <BackToTop />}
 
       <ToastViewport />
-    </>
+    </NotificationProvider>
   );
 };

@@ -53,7 +53,7 @@ export function TeacherClassesPage() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const classes = useTeacherClasses(page);
-  const [selectedId, setSelectedId] = useState<string | null>(params.get("class"));
+  const selectedId = params.get("class");
   const visible =
     classes.data?.items.filter((item) =>
       `${item.code} ${item.name}`.toLowerCase().includes(search.toLowerCase()),
@@ -63,7 +63,6 @@ export function TeacherClassesPage() {
   const activeId = selectedId ?? visible[0]?.id ?? null;
   const detail = useTeacherClassDetail(activeId);
   const select = (item: TeacherClass) => {
-    setSelectedId(item.id);
     setParams({ class: item.id });
   };
   return (

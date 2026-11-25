@@ -2,12 +2,22 @@ import type { RouteObject } from "react-router-dom";
 import { RequireAuth } from "@/modules/auth";
 import { StudentClassesPage } from "./pages/StudentClassesPage";
 
+import { StudentSessionLinkPage } from "./pages/StudentSessionLinkPage";
+
 export const studentRoutes: RouteObject[] = [
   {
     path: "/my-classes",
     element: (
       <RequireAuth roles={["User"]}>
         <StudentClassesPage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/my-classes/sessions/:sessionId",
+    element: (
+      <RequireAuth roles={["User"]}>
+        <StudentSessionLinkPage />
       </RequireAuth>
     ),
   },

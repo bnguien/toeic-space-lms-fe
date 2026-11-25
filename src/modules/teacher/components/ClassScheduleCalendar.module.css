@@ -246,7 +246,7 @@
   height: 56px;
   padding-right: 0.5rem;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-end;
   color: #9aa8b5;
   font-size: 0.63rem;
