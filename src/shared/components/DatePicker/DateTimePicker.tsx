@@ -8,6 +8,7 @@ interface DateTimePickerProps {
   id?: string;
   value?: string; // ISO string or ""
   onChange?: (value: string) => void;
+  onBlur?: () => void;
   placeholder?: string;
   min?: string; // ISO string
   max?: string; // ISO string
@@ -48,6 +49,7 @@ export function DateTimePicker({
   id,
   value: controlledValue,
   onChange,
+  onBlur,
   placeholder = "dd/mm/yyyy hh:mm",
   min,
   max,
@@ -193,7 +195,13 @@ export function DateTimePicker({
   const todayDate = new Date();
 
   return (
-    <div ref={containerRef} className={`${styles.wrapper} ${className ?? ""}`}>
+    <div
+      ref={containerRef}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) onBlur?.();
+      }}
+      className={`${styles.wrapper} ${className ?? ""}`}
+    >
       <button
         id={pickerId}
         type="button"

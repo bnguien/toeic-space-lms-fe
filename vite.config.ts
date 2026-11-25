@@ -46,6 +46,7 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           xfwd: true,
         },
+        "/notification": { target, changeOrigin: true, xfwd: true, ws: true },
         "/payment": {
           target,
           changeOrigin: true,

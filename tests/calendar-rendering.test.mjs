@@ -141,6 +141,8 @@ test("student calendar hides cancelled sessions while the calendar remains avail
     const client = new QueryClient();
     const cancelled = session({
       id: "student-cancelled",
+      startAt: at(10),
+      endAt: at(11),
       title: "Cancelled speaking",
       status: "Cancelled",
     });
@@ -175,6 +177,25 @@ test("student calendar hides cancelled sessions while the calendar remains avail
       }),
     );
     assert.ok(teacherHtml.includes("Cancelled speaking"));
+
+    const adminClient = new QueryClient();
+    adminClient.setQueryData(
+      ["admin", "class-sessions", "calendar", cancelled.teacherId, from, to],
+      {
+        items: [cancelled],
+      },
+    );
+    const renderAdmin = (teacherId) =>
+      render(
+        adminClient,
+        createElement(ClassScheduleCalendar, {
+          role: "admin",
+          teacherId,
+          classNames: new Map(),
+        }),
+      );
+    assert.ok(renderAdmin(cancelled.teacherId).includes("Cancelled speaking"));
+    assert.ok(!renderAdmin("another-teacher").includes("Cancelled speaking"));
   } finally {
     await server.close();
   }

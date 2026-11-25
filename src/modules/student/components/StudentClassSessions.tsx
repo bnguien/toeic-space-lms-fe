@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { sessionsApi, classErrorMessage } from "@/modules/admin";
 import { ClassSessionList, SessionMeetSection } from "@/modules/teacher";
@@ -19,7 +20,18 @@ export function StudentClassSessions({
   teacherId: string | null;
   teacherName: string | null;
 }) {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [params, setParams] = useSearchParams();
+  const selectedId = params.get("session");
+  const detailPanel = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (selectedId) detailPanel.current?.scrollIntoView?.({ block: "center" });
+  }, [selectedId]);
+  const setSelectedId = (id: string | null) => {
+    const next = new URLSearchParams(params);
+    if (id) next.set("session", id);
+    else next.delete("session");
+    setParams(next, { replace: true });
+  };
   const detail = useQuery({
     queryKey: ["student", "class-session", selectedId],
     queryFn: ({ signal }) => sessionsApi.get(selectedId!, signal),
@@ -38,7 +50,7 @@ export function StudentClassSessions({
         onSelect={(session) => setSelectedId(session.id)}
       />
       {selectedId && (
-        <div className={styles.readOnly}>
+        <div ref={detailPanel} className={styles.readOnly}>
           <button type="button" onClick={() => setSelectedId(null)}>
             Đóng chi tiết
           </button>

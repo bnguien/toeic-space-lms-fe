@@ -14,6 +14,11 @@ export const ADMIN_NAV_SECTIONS: NavSection[] = [
     children: [
       { key: "teachers-overview", label: "Tổng quan", path: "/admin/teachers" },
       { key: "teachers-list", label: "Danh sách giáo viên", path: "/admin/teachers/list" },
+      {
+        key: "teacher-schedule",
+        label: "Lịch dạy giáo viên",
+        path: "/admin/teachers/schedule",
+      },
       { key: "teachers-activities", label: "Hoạt động", path: "/admin/teachers/activities" },
     ],
   },

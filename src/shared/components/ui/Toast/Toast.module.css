@@ -1,6 +1,6 @@
 .viewport {
   position: fixed;
-  top: max(1.5rem, calc(env(safe-area-inset-top, 0px) + 1.25rem));
+  top: calc(env(safe-area-inset-top, 0px) + 4.75rem);
   right: var(--toast-right, max(1.5rem, calc(env(safe-area-inset-right, 0px) + 1.25rem)));
   z-index: 9999;
   display: flex;
@@ -18,11 +18,12 @@
   min-width: 280px;
   max-width: 440px;
   padding: 0.85rem 1rem;
-  border: 1.5px solid var(--ui-ink, #252c3f);
+  border: 1px solid color-mix(in srgb, var(--ui-ink, #252c3f) 20%, transparent);
   border-left-width: 5px;
   border-radius: 12px;
-  background: var(--ui-surface, #ffffff);
-  box-shadow: 4px 4px 0px var(--ui-ink, #252c3f);
+  background: color-mix(in srgb, var(--ui-surface, #ffffff) 78%, transparent);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 16px rgb(37 44 63 / 12%);
   color: var(--ui-text, #252c3f);
   font-size: 0.88rem;
   font-weight: 700;
