@@ -14,9 +14,8 @@ export const studentWorkspaceApi = {
 
   getClassroomWorkspace: async (classId: string, signal: AbortSignal) =>
     (
-      await httpClient.get<ClassroomWorkspace>(
-        `${base}/classes/me/enrolled/${classId}/workspace`,
-        { signal },
-      )
+      await httpClient.get<ClassroomWorkspace>(`${base}/classes/me/enrolled/${classId}/workspace`, {
+        signal,
+      })
     ).data,
 };

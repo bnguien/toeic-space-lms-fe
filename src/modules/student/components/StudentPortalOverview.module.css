@@ -69,10 +69,18 @@
   font-weight: 800;
   color: #3a4a63;
 }
-.attendanceCounts > [data-type="present"] dd { color: #287151; }
-.attendanceCounts > [data-type="late"] dd { color: #a06b00; }
-.attendanceCounts > [data-type="absent"] dd { color: #c0334a; }
-.attendanceCounts > [data-type="excused"] dd { color: #5a4d8a; }
+.attendanceCounts > [data-type="present"] dd {
+  color: #287151;
+}
+.attendanceCounts > [data-type="late"] dd {
+  color: #a06b00;
+}
+.attendanceCounts > [data-type="absent"] dd {
+  color: #c0334a;
+}
+.attendanceCounts > [data-type="excused"] dd {
+  color: #5a4d8a;
+}
 
 /* Progress bar */
 .bar {
@@ -82,9 +90,15 @@
   overflow: hidden;
   background: #edf1f4;
 }
-.barPresent { background: #34c47a; }
-.barLate { background: #f5b942; }
-.barAbsent { background: #e85d75; }
+.barPresent {
+  background: #34c47a;
+}
+.barLate {
+  background: #f5b942;
+}
+.barAbsent {
+  background: #e85d75;
+}
 
 /* Upcoming sessions */
 .sessionList {
@@ -174,7 +188,10 @@
   color: #3a4a63;
   text-decoration: none;
   box-shadow: 3px 3px 0 #e9eff5;
-  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 .classCard:hover {
   transform: translate(-1px, -1px);
@@ -189,7 +206,10 @@
 }
 .classCode {
   color: #526e82;
-  font: 700 0.72rem ui-monospace, SFMono-Regular, monospace;
+  font:
+    700 0.72rem ui-monospace,
+    SFMono-Regular,
+    monospace;
 }
 .classBadge {
   display: inline-block;
@@ -201,9 +221,18 @@
   font-weight: 700;
   white-space: nowrap;
 }
-.classBadge[data-status="Active"] { color: #287151; background: #e7f7ee; }
-.classBadge[data-status="Completed"] { color: #6f5794; background: #f2eafe; }
-.classBadge[data-status="Archived"] { color: #a45868; background: #fff0f3; }
+.classBadge[data-status="Active"] {
+  color: #287151;
+  background: #e7f7ee;
+}
+.classBadge[data-status="Completed"] {
+  color: #6f5794;
+  background: #f2eafe;
+}
+.classBadge[data-status="Archived"] {
+  color: #a45868;
+  background: #fff0f3;
+}
 .className {
   color: #33465a;
   font-size: 0.9rem;
@@ -273,12 +302,25 @@
   animation: shimmer 1.4s infinite;
 }
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 @media (max-width: 600px) {
-  .attendanceStats { flex-direction: column; align-items: flex-start; }
-  .sessionItem { flex-direction: column; gap: 0.5rem; }
-  .sessionLeft { flex-direction: row; min-width: unset; }
+  .attendanceStats {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .sessionItem {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .sessionLeft {
+    flex-direction: row;
+    min-width: unset;
+  }
 }

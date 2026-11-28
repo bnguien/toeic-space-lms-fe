@@ -97,7 +97,10 @@
   overflow-wrap: anywhere;
 }
 .code {
-  font: 700 0.82rem ui-monospace, SFMono-Regular, monospace;
+  font:
+    700 0.82rem ui-monospace,
+    SFMono-Regular,
+    monospace;
   color: #526e82;
 }
 .description {
@@ -118,9 +121,18 @@
   font-size: 0.72rem;
   font-weight: 700;
 }
-.statusBadge[data-status="Active"] { color: #287151; background: #e7f7ee; }
-.statusBadge[data-status="Completed"] { color: #6f5794; background: #f2eafe; }
-.statusBadge[data-status="Archived"] { color: #a45868; background: #fff0f3; }
+.statusBadge[data-status="Active"] {
+  color: #287151;
+  background: #e7f7ee;
+}
+.statusBadge[data-status="Completed"] {
+  color: #6f5794;
+  background: #f2eafe;
+}
+.statusBadge[data-status="Archived"] {
+  color: #a45868;
+  background: #fff0f3;
+}
 
 /* Schedules */
 .scheduleList {
@@ -174,8 +186,14 @@
   font-weight: 700;
   white-space: nowrap;
 }
-.modeBadge[data-mode="Online"] { background: #e7f0ff; color: #2f5eb3; }
-.modeBadge[data-mode="Offline"] { background: #e7f7ee; color: #287151; }
+.modeBadge[data-mode="Online"] {
+  background: #e7f0ff;
+  color: #2f5eb3;
+}
+.modeBadge[data-mode="Offline"] {
+  background: #e7f7ee;
+  color: #287151;
+}
 
 /* Sessions */
 .sessionList {
@@ -253,11 +271,26 @@
   background: #edf1f4;
   color: #697789;
 }
-.attendanceBadge[data-status="Present"] { color: #287151; background: #e7f7ee; }
-.attendanceBadge[data-status="Late"] { color: #a06b00; background: #fef4e0; }
-.attendanceBadge[data-status="Absent"] { color: #c0334a; background: #fff0f3; }
-.attendanceBadge[data-status="Excused"] { color: #5a4d8a; background: #f2eafe; }
-.attendanceBadge[data-status="none"] { color: #9aa7b5; background: #f1f4f7; }
+.attendanceBadge[data-status="Present"] {
+  color: #287151;
+  background: #e7f7ee;
+}
+.attendanceBadge[data-status="Late"] {
+  color: #a06b00;
+  background: #fef4e0;
+}
+.attendanceBadge[data-status="Absent"] {
+  color: #c0334a;
+  background: #fff0f3;
+}
+.attendanceBadge[data-status="Excused"] {
+  color: #5a4d8a;
+  background: #f2eafe;
+}
+.attendanceBadge[data-status="none"] {
+  color: #9aa7b5;
+  background: #f1f4f7;
+}
 
 /* Empty states */
 .emptyTab {
@@ -314,12 +347,23 @@
   animation: shimmer 1.4s infinite;
 }
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 @media (max-width: 600px) {
-  .sessionRow { flex-direction: column; gap: 0.5rem; }
-  .sessionRowRight { align-items: flex-start; }
-  .scheduleRange { margin-left: 0; }
+  .sessionRow {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .sessionRowRight {
+    align-items: flex-start;
+  }
+  .scheduleRange {
+    margin-left: 0;
+  }
 }

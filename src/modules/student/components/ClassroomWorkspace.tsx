@@ -86,7 +86,12 @@ function SessionModeBadge({ mode }: { mode: SessionMode }) {
 }
 
 function AttendanceBadge({ status }: { status: AttendanceStatus | null }) {
-  if (!status) return <span className={styles.attendanceBadge} data-status="none">Chưa ghi nhận</span>;
+  if (!status)
+    return (
+      <span className={styles.attendanceBadge} data-status="none">
+        Chưa ghi nhận
+      </span>
+    );
   return (
     <span className={styles.attendanceBadge} data-status={status}>
       {attendanceLabels[status]}
@@ -137,7 +142,9 @@ function SessionRow({ session }: { session: StudentSessionWorkspace }) {
         )}
         {session.mode === "Online" && !isCancelled && (
           <SessionMeetSection
-            session={{ id: session.sessionId, mode: session.mode, status: session.status } as SessionView}
+            session={
+              { id: session.sessionId, mode: session.mode, status: session.status } as SessionView
+            }
             role="student"
           />
         )}
@@ -247,9 +254,7 @@ export function ClassroomWorkspace({ classId }: { classId: string }) {
                   </div>
                 )}
               </dl>
-              {data.description && (
-                <p className={styles.description}>{data.description}</p>
-              )}
+              {data.description && <p className={styles.description}>{data.description}</p>}
             </section>
 
             {/* Weekly schedules */}
@@ -289,17 +294,13 @@ export function ClassroomWorkspace({ classId }: { classId: string }) {
           </section>
         )}
 
-        {activeTab === "attendance" && (
-          <StudentAttendanceHistory classId={classId} />
-        )}
+        {activeTab === "attendance" && <StudentAttendanceHistory classId={classId} />}
 
         {activeTab === "content" && (
           <EmptyTab message="Tài liệu học tập sẽ được giáo viên cập nhật tại đây." />
         )}
 
-        {activeTab === "assignments" && (
-          <EmptyTab message="Chưa có bài tập nào được giao." />
-        )}
+        {activeTab === "assignments" && <EmptyTab message="Chưa có bài tập nào được giao." />}
 
         {activeTab === "grades" && (
           <EmptyTab message="Bảng điểm sẽ được cập nhật sau khi kết thúc khóa học." />

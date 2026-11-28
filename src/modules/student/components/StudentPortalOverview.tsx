@@ -52,13 +52,25 @@ function AttendanceBar({
   return (
     <div className={styles.bar}>
       {present > 0 && (
-        <div className={styles.barPresent} style={{ width: `${presentPct}%` }} title={`Có mặt: ${present}`} />
+        <div
+          className={styles.barPresent}
+          style={{ width: `${presentPct}%` }}
+          title={`Có mặt: ${present}`}
+        />
       )}
       {late > 0 && (
-        <div className={styles.barLate} style={{ width: `${latePct}%` }} title={`Đi muộn: ${late}`} />
+        <div
+          className={styles.barLate}
+          style={{ width: `${latePct}%` }}
+          title={`Đi muộn: ${late}`}
+        />
       )}
       {absent > 0 && (
-        <div className={styles.barAbsent} style={{ width: `${absentPct}%` }} title={`Vắng: ${absent}`} />
+        <div
+          className={styles.barAbsent}
+          style={{ width: `${absentPct}%` }}
+          title={`Vắng: ${absent}`}
+        />
       )}
     </div>
   );
