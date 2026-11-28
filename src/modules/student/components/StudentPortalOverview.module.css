@@ -1,0 +1,326 @@
+.root {
+  display: grid;
+  gap: 1.25rem;
+}
+
+/* Card */
+.card {
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  border: 1px solid #e1e8ef;
+  border-radius: 10px;
+  background: #fff;
+}
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 1rem;
+  color: #3a4a63;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+/* Attendance */
+.attendanceStats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 0.9rem;
+}
+.attendancePct {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 72px;
+}
+.pctValue {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #287151;
+  line-height: 1;
+}
+.pctLabel {
+  margin-top: 0.3rem;
+  color: #607088;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-align: center;
+}
+.attendanceCounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.25rem;
+}
+.attendanceCounts > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 48px;
+}
+.attendanceCounts dt {
+  color: #8593a2;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+.attendanceCounts dd {
+  margin: 0.2rem 0 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #3a4a63;
+}
+.attendanceCounts > [data-type="present"] dd {
+  color: #287151;
+}
+.attendanceCounts > [data-type="late"] dd {
+  color: #a06b00;
+}
+.attendanceCounts > [data-type="absent"] dd {
+  color: #c0334a;
+}
+.attendanceCounts > [data-type="excused"] dd {
+  color: #5a4d8a;
+}
+
+/* Progress bar */
+.bar {
+  display: flex;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #edf1f4;
+}
+.barPresent {
+  background: #34c47a;
+}
+.barLate {
+  background: #f5b942;
+}
+.barAbsent {
+  background: #e85d75;
+}
+
+/* Upcoming sessions */
+.sessionList {
+  display: grid;
+  gap: 0.6rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.sessionItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #edf1f5;
+  border-radius: 8px;
+  background: #fafbfc;
+}
+.sessionLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  min-width: 72px;
+}
+.sessionMode {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+.sessionMode[data-mode="Online"] {
+  background: #e7f0ff;
+  color: #2f5eb3;
+}
+.sessionMode[data-mode="Offline"] {
+  background: #e7f7ee;
+  color: #287151;
+}
+.sessionTime {
+  color: #607088;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.4;
+}
+.sessionRight {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+.sessionClass {
+  color: #4867a8;
+  font-size: 0.75rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.sessionTitle {
+  color: #3a4a63;
+  font-size: 0.85rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.sessionRoom {
+  color: #8593a2;
+  font-size: 0.72rem;
+}
+
+/* Enrolled classes grid */
+.classGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 0.85rem;
+}
+.classCard {
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+  padding: 0.85rem 1rem;
+  border: 1.5px solid #dfe7f0;
+  border-radius: 10px;
+  background: #fff;
+  color: #3a4a63;
+  text-decoration: none;
+  box-shadow: 3px 3px 0 #e9eff5;
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.classCard:hover {
+  transform: translate(-1px, -1px);
+  border-color: #b9cfe2;
+  box-shadow: 4px 4px 0 #e2eaf2;
+}
+.classCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.classCode {
+  color: #526e82;
+  font:
+    700 0.72rem ui-monospace,
+    SFMono-Regular,
+    monospace;
+}
+.classBadge {
+  display: inline-block;
+  padding: 0.18rem 0.45rem;
+  border-radius: 5px;
+  background: #edf1f4;
+  color: #697789;
+  font-size: 0.68rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.classBadge[data-status="Active"] {
+  color: #287151;
+  background: #e7f7ee;
+}
+.classBadge[data-status="Completed"] {
+  color: #6f5794;
+  background: #f2eafe;
+}
+.classBadge[data-status="Archived"] {
+  color: #a45868;
+  background: #fff0f3;
+}
+.className {
+  color: #33465a;
+  font-size: 0.9rem;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+.classMeta {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0;
+}
+.classMeta > div {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+}
+.classMeta dt {
+  color: #8593a2;
+  font-weight: 700;
+}
+.classMeta dd {
+  margin: 0;
+  color: #53677a;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* Empty & notice states */
+.emptyState {
+  padding: 1.5rem 0;
+  color: #7e8e9d;
+  font-size: 0.83rem;
+}
+.emptyNote {
+  color: #7e8e9d;
+  font-size: 0.83rem;
+  margin: 0;
+}
+.notice {
+  padding: 2rem 1rem;
+  border: 1px solid #e1e8ef;
+  border-radius: 10px;
+  background: #fff;
+  color: #607088;
+  text-align: center;
+  font-size: 0.85rem;
+}
+.notice button {
+  margin-top: 0.6rem;
+  color: #37548f;
+  text-decoration: underline;
+  background: transparent;
+  font-weight: 700;
+}
+
+/* Skeleton */
+.skeleton {
+  display: grid;
+  gap: 1.25rem;
+}
+.skeletonCard {
+  height: 160px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #f0f4f8 25%, #e4eaf0 50%, #f0f4f8 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .attendanceStats {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .sessionItem {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .sessionLeft {
+    flex-direction: row;
+    min-width: unset;
+  }
+}
