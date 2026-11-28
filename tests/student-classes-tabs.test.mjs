@@ -101,10 +101,10 @@ test("Student Classes tabs open the requested Calendar, sync query params, and o
     await flush();
 
     assert.ok(globalThis.document.body.textContent.includes("Không gian học tập"));
-    assert.ok(globalThis.document.body.textContent.includes("Lớp học của tôi"));
+    assert.ok(globalThis.document.body.textContent.includes("Tổng quan"));
     assert.equal(
       globalThis.document.querySelector('[aria-selected="true"]').textContent,
-      "Lớp học của tôi",
+      "Tổng quan",
     );
     assert.equal(attendanceRequests, 0);
 
