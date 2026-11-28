@@ -53,8 +53,10 @@ function errorMessage(error: unknown, detail = false) {
 
 export function StudentClassesPage() {
   const { id } = useParams();
-  const location = useLocation();
   const [params, setParams] = useSearchParams();
+  const listParams = new URLSearchParams(params);
+  listParams.delete("session");
+  const listPath = "/my-classes" + (listParams.size ? `?${listParams}` : "");
   const detail = useStudentClassDetail(id);
   const requestedTab = params.get("tab");
   const activeTab: StudentTab = studentTabs.some((tab) => tab.id === requestedTab)
@@ -74,7 +76,7 @@ export function StudentClassesPage() {
           <ChevronRight size={15} />
           {id ? (
             <>
-              <Link to={`/my-classes${location.search}`}>Lớp học của tôi</Link>
+              <Link to={listPath}>Lớp học của tôi</Link>
               <ChevronRight size={15} />
               <span>Chi tiết lớp</span>
             </>
@@ -84,6 +86,7 @@ export function StudentClassesPage() {
         </nav>
         {id ? (
           <AdminPage
+            key={id}
             theme="blue"
             hero={
               <ListHero
@@ -95,7 +98,7 @@ export function StudentClassesPage() {
                 }
                 mascot={teamMascot}
                 actions={
-                  <ButtonLink to={`/my-classes${location.search}`} variant="default">
+                  <ButtonLink to={listPath} variant="default">
                     ← Quay lại danh sách
                   </ButtonLink>
                 }

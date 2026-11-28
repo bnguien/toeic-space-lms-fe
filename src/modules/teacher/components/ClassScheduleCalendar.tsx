@@ -9,6 +9,7 @@ import {
   Video,
   XCircle,
 } from "lucide-react";
+import { loadAllPages } from "@/shared/utils/loadAllPages";
 import { useCurrentUser } from "@/modules/auth";
 import { useMediaQuery } from "@/shared/hooks/useMediaQuery";
 import {
@@ -46,7 +47,9 @@ interface ActiveSession {
 }
 
 export interface ClassScheduleCalendarProps {
-  role: "teacher" | "student";
+  role: "teacher" | "student" | "admin";
+  teacherId?: string;
+  selectedTeacherName?: string;
   classNames: Map<string, string>;
   classTeacherNames?: Map<string, string | null>;
   onOpenSession?: (session: SessionView) => void;
@@ -55,6 +58,8 @@ export interface ClassScheduleCalendarProps {
 
 export function ClassScheduleCalendar({
   role,
+  teacherId,
+  selectedTeacherName,
   classNames,
   classTeacherNames,
   onOpenSession,
@@ -72,8 +77,15 @@ export function ClassScheduleCalendar({
   const from = wallToIso(weekStart);
   const to = wallToIso(addWallDays(weekStart, 7));
   const sessions = useQuery({
-    queryKey: ["calendar", "class-sessions", role, from, to],
-    queryFn: ({ signal }) => sessionsApi.list({ from, to, page: 1, pageSize: 100 }, signal),
+    queryKey:
+      role === "admin"
+        ? ["admin", "class-sessions", "calendar", teacherId, from, to]
+        : ["calendar", "class-sessions", role, from, to],
+    queryFn: async ({ signal }) => ({
+      items: await loadAllPages((page) =>
+        sessionsApi.list({ from, to, teacherId, page, pageSize: 100 }, signal),
+      ),
+    }),
     staleTime: 60_000,
     retry: false,
   });
@@ -201,9 +213,10 @@ export function ClassScheduleCalendar({
   };
   const classLabel = (session: SessionView) => classNames.get(session.classId) ?? session.title;
   const teacherName = (session: SessionView) =>
-    session.teacherId === user?.id
+    selectedTeacherName ??
+    (session.teacherId === user?.id
       ? (user?.fullName ?? null)
-      : (classTeacherNames?.get(session.classId) ?? null);
+      : (classTeacherNames?.get(session.classId) ?? null));
   const checkStudentConflicts = async () => {
     if (role !== "student" || conflictCheck.isPending) return;
     setCheckedConflictRange(null);
@@ -461,6 +474,7 @@ function SessionCard({
       aria-expanded={active}
       style={{
         top: positioned.top,
+        maxHeight: positioned.height,
         left: positioned.left,
         width: positioned.width,
         background: tone.background,

@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useMemo } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { CalendarDays } from "lucide-react";
 import scheduleMascot from "@/assets/mascot/oy2-listening.png";
 import { AdminPage, ListHero } from "@/modules/admin";
@@ -12,7 +12,10 @@ import styles from "./TeacherSchedulePage.module.css";
 export function TeacherSchedulePage() {
   const user = useCurrentUser();
   const navigate = useNavigate();
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [params, setParams] = useSearchParams();
+  const selectedId = params.get("session");
+  const setSelectedId = (id: string | null) =>
+    setParams(id ? { session: id } : {}, { replace: true });
   const classes = useTeacherClasses(1, 100);
   const classNames = useMemo(
     () => new Map((classes.data?.items ?? []).map((item) => [item.id, item.name])),

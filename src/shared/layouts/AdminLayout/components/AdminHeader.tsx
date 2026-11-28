@@ -1,3 +1,4 @@
+import { NotificationBell } from "@/modules/notifications";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { Globe, KeyRound, LogOut, Moon } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
@@ -61,6 +62,7 @@ export const AdminHeader = ({
       </div>
 
       <div className={styles.right}>
+        <NotificationBell />
         {actions}
         <AccountMenu
           account={account}

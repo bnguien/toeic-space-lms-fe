@@ -1,3 +1,4 @@
+import { NotificationBell } from "@/modules/notifications";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useCurrentUser, useLogout, useSessionStatus } from "@/modules/auth";
@@ -208,6 +209,7 @@ export const Navbar = () => {
               {colorMode.mode === "dark" ? <Sun size={18} /> : <Moon size={18} />}
             </button>
           )}
+          <NotificationBell />
           {sessionStatus === "restoring" && !user ? (
             <div className={styles.authSkeleton} aria-hidden="true" />
           ) : !user ? (
