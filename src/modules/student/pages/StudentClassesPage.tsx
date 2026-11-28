@@ -10,13 +10,15 @@ import { Select } from "@/shared/components/Select";
 import { ClassScheduleCalendar } from "@/modules/teacher";
 import { useStudentClassDetail, useStudentClasses } from "../hooks/useStudentClasses";
 import type { StudentClass, StudentClassStatus } from "../types/student-class.types";
-import { StudentClassSessions } from "../components/StudentClassSessions";
 import { StudentAttendanceHistory } from "../components/StudentAttendanceHistory";
+import { StudentPortalOverview } from "../components/StudentPortalOverview";
+import { ClassroomWorkspace } from "../components/ClassroomWorkspace";
 import styles from "./StudentClassesPage.module.css";
 
 const PAGE_SIZE = 20;
-type StudentTab = "calendar" | "classes" | "attendance";
+type StudentTab = "overview" | "calendar" | "classes" | "attendance";
 const studentTabs: { id: StudentTab; label: string }[] = [
+  { id: "overview", label: "Tổng quan" },
   { id: "calendar", label: "Lịch học" },
   { id: "classes", label: "Lớp học của tôi" },
   { id: "attendance", label: "Lịch sử điểm danh" },
@@ -57,7 +59,7 @@ export function StudentClassesPage() {
   const requestedTab = params.get("tab");
   const activeTab: StudentTab = studentTabs.some((tab) => tab.id === requestedTab)
     ? (requestedTab as StudentTab)
-    : "classes";
+    : "overview";
   const setTab = (tab: StudentTab) => {
     const next = new URLSearchParams(params);
     next.set("tab", tab);
@@ -111,46 +113,7 @@ export function StudentClassesPage() {
               </div>
             ) : (
               <>
-                <article className={styles.detail}>
-                  <div className={styles.detailHeading}>
-                    <span className={styles.code}>{detail.data.class.code}</span>
-                    <h2>{detail.data.class.name}</h2>
-                    <span className={styles.badge} data-status={detail.data.class.status}>
-                      {labels[detail.data.class.status]}
-                    </span>
-                  </div>
-                  <p className={styles.description}>
-                    {detail.data.class.description || "Lớp học chưa có mô tả."}
-                  </p>
-                  <dl className={styles.facts}>
-                    <div>
-                      <dt>Giáo viên phụ trách</dt>
-                      <dd>{teacherText(detail.data.class)}</dd>
-                    </div>
-                    <div>
-                      <dt>Ngày bắt đầu</dt>
-                      <dd>{dateText(detail.data.class.startDate)}</dd>
-                    </div>
-                    <div>
-                      <dt>Ngày kết thúc</dt>
-                      <dd>{dateText(detail.data.class.endDate)}</dd>
-                    </div>
-                  </dl>
-                  {(detail.data.class.status === "Archived" ||
-                    detail.data.class.status === "Completed") && (
-                    <p className={styles.readOnly}>
-                      Lớp đã {detail.data.class.status === "Archived" ? "lưu trữ" : "hoàn thành"}.
-                      Thông tin chỉ có thể xem.
-                    </p>
-                  )}
-                </article>
-                <StudentClassSessions
-                  key={id}
-                  classId={detail.data.class.id}
-                  teacherId={detail.data.class.teacherId}
-                  teacherName={detail.data.class.teacherName}
-                />
-                <StudentAttendanceHistory key={id} classId={detail.data.class.id} />
+                <ClassroomWorkspace key={id} classId={detail.data.class.id} />
               </>
             )}
           </AdminPage>
@@ -194,6 +157,8 @@ export function StudentClassesPage() {
                 <StudentCalendarSection />
               ) : activeTab === "classes" ? (
                 <StudentClassesListTab />
+              ) : activeTab === "overview" ? (
+                <StudentPortalOverview />
               ) : (
                 <StudentAttendanceHistory />
               )}
